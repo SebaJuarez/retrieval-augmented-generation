@@ -1,0 +1,40 @@
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.pyc~
+*.db
+
+# Entornos virtuales
+venv/
+env/
+virtualenv/
+
+# Archivos de configuración sensibles
+.env
+.env.local
+.env.development
+.env.test
+
+# Dependencias generadas
+requirements.txt
+Pipfile.lock
+
+# Logs y archivos temporales
+*.log
+*.tmp
+*.bak
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+/uploads/
+
+/model/

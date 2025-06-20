@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Básico (Similar a LLM UI)</title>
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/main.js" defer></script>
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            Asistente virtual
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            <div class="message-bubble bot-message">Hola, soy tu asistente RAG. ¿En qué puedo ayudarte?</div>
+        </div>
+        <div class="chat-input-area">
+            <button class="send-file-button"> + </button>
+            <input type="text" id="chat-input" class="chat-input" placeholder="Escribe tu mensaje aquí...">
+            <button id="send-button" class="send-button">Enviar</button>
+        </div>
+    </div>
+</body>
+
+</html>
