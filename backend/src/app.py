@@ -3,8 +3,10 @@ from query_engine.loader import query_engine as default_query_engine
 from query_engine.engine import initialize_query_engine
 import os
 from werkzeug.utils import secure_filename
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 UPLOAD_FOLDER = "uploads"
 ALLOWED_EXTENSIONS = {"pdf"}
 
