@@ -1,40 +1,33 @@
-__pycache__
-*.pyc
-*.pyo
-*.pyd
-*.pyc~
+# Entorno virtual
+env/
+venv/
+ENV/
+.venv/
+
+# Archivos de configuración de entorno
+.env
+
+# Archivos de Python compilados
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Archivos de logs y bases de datos locales
+*.log
+*.sqlite3
 *.db
 
-# Entornos virtuales
-venv/
-env/
-virtualenv/
+# Archivos de Jupyter Notebook checkpoints
+.ipynb_checkpoints/
 
-# Archivos de configuración sensibles
-.env
-.env.local
-.env.development
-.env.test
-
-# Dependencias generadas
-requirements.txt
-Pipfile.lock
-
-# Logs y archivos temporales
-*.log
-*.tmp
-*.bak
-
-# Archivos del sistema
+# Archivos de sistema
 .DS_Store
 Thumbs.db
 
-# IDE / Editor
-.idea/
+# Archivos de VSCode
 .vscode/
-*.swp
-*.swo
 
-/uploads/
+# Archivos de salida
+*.out
 
-/model/
+uploads
