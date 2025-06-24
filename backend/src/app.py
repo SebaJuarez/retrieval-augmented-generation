@@ -48,24 +48,29 @@ def reload_engine():
 # Ruta para subir un archivo PDF
 @app.route("/subir", methods=["POST"])
 def subir_pdf():
-    if "archivo" not in request.files:
-        return jsonify({"error": "No se envió ningún archivo."}), 400
+    if "archivos" not in request.files:
+        return jsonify({"error": "No se enviaron archivos."}), 400
 
-    archivo = request.files["archivo"]
+    archivos = request.files.getlist("archivos")
+    if not archivos or all(archivo.filename == "" for archivo in archivos):
+        return jsonify({"error": "Ningún archivo seleccionado."}), 400
 
-    if archivo.filename == "":
-        return jsonify({"error": "Nombre de archivo vacío."}), 400
+    mensajes = []
+    for archivo in archivos:
+        if archivo and allowed_file(archivo.filename):
+            filename = secure_filename(archivo.filename)
+            path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
+            archivo.save(path)
+            mensajes.append(f"'{filename}' subido correctamente.")
+        else:
+            mensajes.append(f"'{archivo.filename}' no es un PDF válido.")
 
-    if archivo and allowed_file(archivo.filename):
-        filename = secure_filename(archivo.filename)
-        path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
-        archivo.save(path)
-        # Actualizar el query engine
+    # Actualizar el query engine si al menos un archivo fue subido
+    if any("subido correctamente" in m for m in mensajes):
         global current_query_engine
         current_query_engine = initialize_query_engine()
-        return jsonify({"mensaje": f"Archivo '{filename}' subido y procesado."}), 200
 
-    return jsonify({"error": "Solo se permiten archivos PDF."}), 400
+    return jsonify({"mensaje": " | ".join(mensajes)}), 200
 
 
 if __name__ == "__main__":
