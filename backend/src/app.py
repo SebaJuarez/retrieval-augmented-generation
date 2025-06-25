@@ -63,12 +63,13 @@ def subir_pdf():
             filename = secure_filename(archivo.filename)
             path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             archivo.save(path)
-            mensajes.append(f"'{filename}' subido correctamente.")
+            mensajes.append(f"'{filename}' subido.")
         else:
             mensajes.append(f"'{archivo.filename}' no es un PDF válido.")
 
     # Actualizar el query engine si al menos un archivo fue subido
     if any("subido correctamente" in m for m in mensajes):
+        print("Recargando el query engine...")
         global current_query_engine
         current_query_engine = initialize_query_engine()
 

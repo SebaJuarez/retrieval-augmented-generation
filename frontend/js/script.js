@@ -4,6 +4,7 @@ const chatMessages = document.getElementById('chat-messages');
 const fileInput = document.getElementById('file-upload');
 const uploadButton = document.getElementById('upload-button');
 const loader = document.getElementById('loader');
+const loaderOverlay = document.getElementById('loader-overlay');
 
 // Agregar un mensaje al chat
 function addMessage(message, sender) {
@@ -21,13 +22,24 @@ function addMessage(message, sender) {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
+function setInputsDisabled(disabled) {
+    // Seleccionamos todos los botones e inputs dentro del chat container
+    const buttons = document.querySelectorAll('button');
+    const inputs = document.querySelectorAll('input');
+
+    buttons.forEach(btn => btn.disabled = disabled);
+    inputs.forEach(inp => inp.disabled = disabled);
+}
+
 // Mostrar loader
 function showLoader() {
+    setInputsDisabled(true);
     loader.style.display = 'block';
 }
 
 // Ocultar loader
 function hideLoader() {
+    setInputsDisabled(false);
     loader.style.display = 'none';
 }
 
