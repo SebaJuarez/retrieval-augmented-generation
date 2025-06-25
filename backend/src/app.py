@@ -59,6 +59,7 @@ def subir_pdf():
     mensajes = []
     for archivo in archivos:
         if archivo and allowed_file(archivo.filename):
+            print("Archivo subido:", archivo.filename)
             filename = secure_filename(archivo.filename)
             path = os.path.join(app.config["UPLOAD_FOLDER"], filename)
             archivo.save(path)
@@ -71,8 +72,8 @@ def subir_pdf():
         global current_query_engine
         current_query_engine = initialize_query_engine()
 
-    return jsonify({"mensaje": " | ".join(mensajes)}), 200
+    return jsonify({"mensaje": "\n".join(mensajes)}), 200
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)

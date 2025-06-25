@@ -18,13 +18,12 @@
             <div class="message-bubble bot-message">Hola, soy tu asistente RAG. ¿En qué puedo ayudarte?</div>
         </div>
         <div class="chat-input-area">
-            <label class="send-file-button">
-                +
-                <input type="file" id="file-upload" multiple accept=".pdf" style="display: none;">
-            </label>
+            <button id="upload-button" class="send-file-button" type="button">+</button>
+            <input type="file" id="file-upload" multiple accept=".pdf" style="display: none;">
             <input type="text" id="chat-input" class="chat-input" placeholder="Escribe tu mensaje aquí...">
-            <button id="send-button" class="send-button">Enviar</button>
+            <button id="send-button" class="send-button" type="button">Enviar</button>
         </div>
+        <div id="loader" class="loader" style="display:none;"></div>
     </div>
 </body>
 

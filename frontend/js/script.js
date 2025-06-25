@@ -2,12 +2,13 @@ const chatInput = document.getElementById('chat-input');
 const sendButton = document.getElementById('send-button');
 const chatMessages = document.getElementById('chat-messages');
 const fileInput = document.getElementById('file-upload');
+const uploadButton = document.getElementById('upload-button');
+const loader = document.getElementById('loader');
 
-// Añadir mensaje al chat
+// Agregar un mensaje al chat
 function addMessage(message, sender) {
     const messageDiv = document.createElement('div');
-    messageDiv.classList.add('message-bubble');
-    messageDiv.classList.add(sender === 'user' ? 'user-message' : 'bot-message');
+    messageDiv.classList.add('message-bubble', sender === 'user' ? 'user-message' : 'bot-message');
 
     let formattedMessage = message
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
@@ -20,8 +21,33 @@ function addMessage(message, sender) {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// Enviar pregunta al backend
+// Mostrar loader
+function showLoader() {
+    loader.style.display = 'block';
+}
+
+// Ocultar loader
+function hideLoader() {
+    loader.style.display = 'none';
+}
+
+// Enviar mensaje
+sendButton.addEventListener('click', () => {
+    const userMessage = chatInput.value.trim();
+    if (!userMessage) return;
+
+    addMessage(userMessage, 'user');
+    chatInput.value = '';
+    getBotResponse(userMessage);
+});
+
+chatInput.addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') sendButton.click();
+});
+
+// Obtener respuesta del backend con loader
 async function getBotResponse(userMessage) {
+    showLoader();
     try {
         const response = await fetch('http://127.0.0.1:5000/preguntar', {
             method: 'POST',
@@ -29,37 +55,26 @@ async function getBotResponse(userMessage) {
             body: JSON.stringify({ pregunta: userMessage })
         });
 
-        if (!response.ok) throw new Error('Error en la respuesta del servidor');
-
         const data = await response.json();
-        addMessage(data.respuesta, 'bot');
+        addMessage(data.respuesta || '❌ Error del servidor', 'bot');
     } catch (error) {
-        console.error('Error al consultar /preguntar:', error);
-        addMessage('⚠️ Error al obtener la respuesta del servidor.', 'bot');
+        console.error('Error en /preguntar:', error);
+        addMessage('❌ No se pudo conectar con el servidor.', 'bot');
+    } finally {
+        hideLoader();
     }
 }
 
-// Enviar mensaje
-sendButton.addEventListener('click', () => {
-    const userMessage = chatInput.value.trim();
-    if (userMessage) {
-        addMessage(userMessage, 'user');
-        chatInput.value = '';
-        getBotResponse(userMessage);
-    }
+// Botón + abre selector de archivos
+uploadButton.addEventListener('click', (event) => {
+    event.preventDefault();
+    fileInput.click();
 });
 
-// Enter para enviar
-chatInput.addEventListener('keypress', (event) => {
-    if (event.key === 'Enter') sendButton.click();
-});
-
-// Subida de PDFs al hacer click en "+"
+// Subida de PDFs con loader
 fileInput.addEventListener('change', async (event) => {
     event.preventDefault();
-    event.stopPropagation();
     const files = fileInput.files;
-
     if (files.length === 0) {
         addMessage('⚠️ No se seleccionaron archivos.', 'bot');
         return;
@@ -74,6 +89,8 @@ fileInput.addEventListener('change', async (event) => {
         }
     }
 
+    addMessage('Indexando archivos...', 'bot')
+    showLoader();
     try {
         const response = await fetch('http://127.0.0.1:5000/subir', {
             method: 'POST',
@@ -81,15 +98,17 @@ fileInput.addEventListener('change', async (event) => {
         });
 
         const data = await response.json();
-
         if (response.ok) {
-            addMessage(`✅ Archivos subidos correctamente.`, 'bot');
+            // Mostrar el mensaje que devuelve el backend
+            addMessage(data.mensaje || '✅ Archivos subidos correctamente.', 'bot');
         } else {
             addMessage(`❌ Error al subir: ${data.error || 'Desconocido'}`, 'bot');
         }
     } catch (error) {
         console.error('Error al subir archivos:', error);
         addMessage('⚠️ Error al subir los archivos al servidor.', 'bot');
+    } finally {
+        hideLoader();
     }
 });
 
