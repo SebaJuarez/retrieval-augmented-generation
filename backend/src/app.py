@@ -33,6 +33,7 @@ def preguntar():
     if not pregunta:
         return jsonify({"error": "Falta la pregunta"}), 400
 
+    pregunta = pregunta.strip() + ". Responde en español."
     respuesta = current_query_engine.query(pregunta)
     return jsonify({"respuesta": str(respuesta)}), 200
 

@@ -130,26 +130,30 @@
      border-radius: 3px;
  }
 
-.send-file-button {
-    background-color: #4285F4;
-    color: white;
-    border: none;
-    border-radius: 25px;
-    margin-right: 10px;
-    padding: 10px 20px;
-    font-size: 1em;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-    outline: none;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    font-size: 1.2em;
-}
+ .send-file-button {
+     background-color: #4285F4;
+     color: white;
+     border: none;
+     border-radius: 25px;
+     margin-right: 10px;
+     padding: 10px 20px;
+     font-size: 1em;
+     cursor: pointer;
+     transition: background-color 0.3s ease, transform 0.2s ease;
+     outline: none;
+     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+     font-size: 1.2em;
+ }
 
-.send-file-button:hover {
-    background-color: #357ae8;
-    transform: translateY(-2px);
-}
+ .send-file-button:hover {
+     background-color: #357ae8;
+     transform: translateY(-2px);
+ }
 
-.send-file-button:active {
-    transform: scale(0.98);
-}
+ .send-file-button:active {
+     transform: scale(0.98);
+ }
+
+ .send-file-button input {
+     display: none;
+ }

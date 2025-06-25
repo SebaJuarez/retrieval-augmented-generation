@@ -4,25 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Básico (Similar a LLM UI)</title>
-    <link rel="stylesheet" href="css/index.css">
-    <script src="js/main.js" defer></script>
+    <title>Asistente RAG</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/script.js" defer></script>
 </head>
 
 <body>
     <div class="chat-container">
         <div class="chat-header">
-            Asistente virtual
+            Asistente RAG
         </div>
         <div class="chat-messages" id="chat-messages">
             <div class="message-bubble bot-message">Hola, soy tu asistente RAG. ¿En qué puedo ayudarte?</div>
         </div>
         <div class="chat-input-area">
-            <button class="send-file-button"> + </button>
+            <label class="send-file-button">
+                +
+                <input type="file" id="file-upload" multiple accept=".pdf" style="display: none;">
+            </label>
             <input type="text" id="chat-input" class="chat-input" placeholder="Escribe tu mensaje aquí...">
             <button id="send-button" class="send-button">Enviar</button>
         </div>
     </div>
 </body>
+
 
 </html>

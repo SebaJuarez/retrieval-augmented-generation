@@ -30,4 +30,6 @@ Thumbs.db
 # Archivos de salida
 *.out
 
-uploads
+*.pdf
+
+!instructivo_base.pdf
