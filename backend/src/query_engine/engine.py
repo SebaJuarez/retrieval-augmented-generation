@@ -10,6 +10,9 @@ from llama_index.embeddings.google_genai import GoogleGenAIEmbedding
 
 
 def initialize_query_engine(folder_path="uploads"):
+    if not os.path.exists(folder_path):
+        raise RuntimeError(f"No se encontró la carpeta {folder_path}")
+
     load_dotenv()
     API_KEY = os.getenv("GEMINI_API_KEY")
     if not API_KEY:
@@ -19,9 +22,6 @@ def initialize_query_engine(folder_path="uploads"):
 
     genai.configure(api_key=API_KEY)
     llm = GoogleGenAI(model="gemini-1.5-pro")
-
-    if not os.path.exists(folder_path):
-        raise RuntimeError(f"No se encontró la carpeta {folder_path}")
 
     documents = []
     for filename in os.listdir(folder_path):
@@ -38,15 +38,18 @@ def initialize_query_engine(folder_path="uploads"):
             f"No se encontraron archivos PDF en la carpeta {folder_path}"
         )
 
+    # Instanciamos el procesador de documentos y el modelo de embeddings
     splitter = SentenceSplitter(chunk_size=512, chunk_overlap=50)
-    nodes = splitter.get_nodes_from_documents(documents)
-
     embed_model = GoogleGenAIEmbedding(model_name="models/embedding-001")
 
+    # Procesamos los documentos y creamos los nodos
+    nodes = splitter.get_nodes_from_documents(documents)
+
+    # Creamos el índice de búsqueda vectorial
     index = VectorStoreIndex(nodes, embed_model=embed_model)
 
+    # Configuramos el query engine con el modelo LLM
     query_engine = index.as_query_engine(llm=llm, similarity_top_k=3)
 
     print("Query engine inicializado con éxito.")
-
     return query_engine
