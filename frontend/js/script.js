@@ -10,14 +10,9 @@ const loaderOverlay = document.getElementById('loader-overlay');
 function addMessage(message, sender) {
     const messageDiv = document.createElement('div');
     messageDiv.classList.add('message-bubble', sender === 'user' ? 'user-message' : 'bot-message');
-
-    let formattedMessage = message
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*(.*?)\*/g, '<em>$1</em>')
-        .replace(/```(.*?)```/gs, '<pre>$1</pre>')
-        .replace(/`(.*?)`/g, '<code>$1</code>');
-
-    messageDiv.innerHTML = formattedMessage;
+    // Fuerza salto de línea en Markdown
+    const formatted = message.replace(/\n/g, '  \n');
+    messageDiv.innerHTML = marked.parse(formatted);
     chatMessages.appendChild(messageDiv);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
