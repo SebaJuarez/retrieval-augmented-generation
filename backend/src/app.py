@@ -68,7 +68,7 @@ def subir_pdf():
             mensajes.append(f"'{archivo.filename}' no es un PDF válido.")
 
     # Actualizar el query engine si al menos un archivo fue subido
-    if any("subido correctamente" in m for m in mensajes):
+    if any("subido." in m for m in mensajes):
         print("Recargando el query engine...")
         global current_query_engine
         current_query_engine = initialize_query_engine()
